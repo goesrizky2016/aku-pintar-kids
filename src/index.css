@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Nunito", ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1e293b;
+  background: #f0f9ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; background: #f0f9ff; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+.font-heading { font-family: "Nunito", ui-rounded, system-ui, sans-serif; }
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-5px) rotate(2deg); } }
+@keyframes pop { 0% { transform: scale(.92); opacity: .6; } 100% { transform: scale(1); opacity: 1; } }
+.animate-float { animation: float 2.8s ease-in-out infinite; }
+.animate-bob { animation: bob 2.2s ease-in-out infinite; }
+.animate-pop { animation: pop .25s ease-out; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
