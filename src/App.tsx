@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   Navigate,
@@ -67,14 +68,6 @@ export default function App() {
 
   /* =======================================================
      ACTIVE LOGIN PROFILE
-     
-     Ini hanya menentukan siapa yang sedang login.
-     
-     Anak:
-       profile.role = "anak"
-     
-     Orang Tua:
-       profile.role = "orangtua"
   ======================================================== */
 
   const [profile, setProfileState] =
@@ -87,8 +80,6 @@ export default function App() {
 
   /* =======================================================
      CHILD PROFILE
-     
-     Data anak disimpan TERPISAH dari profile orang tua.
   ======================================================== */
 
   const [childProfile, setChildProfileState] =
@@ -101,8 +92,6 @@ export default function App() {
 
   /* =======================================================
      PARENT PROFILE
-     
-     Data orang tua disimpan TERPISAH dari profil anak.
   ======================================================== */
 
   const [parentProfile, setParentProfileState] =
@@ -139,6 +128,8 @@ export default function App() {
 
   /* =======================================================
      MUTED
+     
+     Untuk suara AI / TTS.
   ======================================================== */
 
   const [muted, setMutedState] =
@@ -150,16 +141,32 @@ export default function App() {
     );
 
   /* =======================================================
+     BACKGROUND MUSIC MUTED
+     
+     Khusus untuk backsound.
+  ======================================================== */
+
+  const [
+    backgroundMusicMuted,
+    setBackgroundMusicMutedState,
+  ] = useState<boolean>(() =>
+    readStorage<boolean>(
+      "backgroundMusicMuted",
+      false
+    )
+  );
+
+  /* =======================================================
      PARENT GATE
   ======================================================== */
 
   const [parentGateOpen, setParentGateOpen] =
     useState(false);
 
-  /*
-    Menentukan apakah orang tua sudah berhasil
-    masuk ke area orang tua.
-  */
+  /* =======================================================
+     PARENT UNLOCKED
+  ======================================================== */
+
   const [parentUnlocked, setParentUnlocked] =
     useState<boolean>(() => {
       const savedProfile =
@@ -168,19 +175,16 @@ export default function App() {
           null
         );
 
-      /*
-        Jika profile yang tersimpan adalah orang tua,
-        anggap session orang tua masih aktif.
-      */
       return (
         savedProfile?.role ===
         "orangtua"
       );
     });
 
-  /*
-    Halaman tujuan setelah Parent Gate.
-  */
+  /* =======================================================
+     PARENT DESTINATION
+  ======================================================== */
+
   const [parentDestination, setParentDestination] =
     useState("/orangtua");
 
@@ -251,6 +255,17 @@ export default function App() {
   }, [muted]);
 
   /* =======================================================
+     SAVE BACKGROUND MUSIC MUTED
+  ======================================================== */
+
+  useEffect(() => {
+    writeStorage(
+      "backgroundMusicMuted",
+      backgroundMusicMuted
+    );
+  }, [backgroundMusicMuted]);
+
+  /* =======================================================
      SET PROFILE
   ======================================================== */
 
@@ -259,13 +274,6 @@ export default function App() {
   ) => {
     setProfileState(nextProfile);
 
-    /*
-      HANYA jika yang login adalah ANAK,
-      simpan data ke childProfile.
-
-      Login orang tua TIDAK boleh mengubah
-      childProfile.
-    */
     if (
       nextProfile.role === "anak"
     ) {
@@ -308,6 +316,16 @@ export default function App() {
     value: boolean
   ) => {
     setMutedState(value);
+  };
+
+  /* =======================================================
+     SET BACKGROUND MUSIC MUTED
+  ======================================================== */
+
+  const setBackgroundMusicMuted = (
+    value: boolean
+  ) => {
+    setBackgroundMusicMutedState(value);
   };
 
   /* =======================================================
@@ -363,11 +381,6 @@ export default function App() {
   const openParentGate = (
     destination = "/orangtua"
   ) => {
-    /*
-      Jika sudah login sebagai orang tua
-      dan sudah unlock,
-      langsung buka halaman tujuan.
-    */
     if (
       parentUnlocked &&
       profile?.role === "orangtua"
@@ -397,15 +410,6 @@ export default function App() {
 
   /* =======================================================
      LOGOUT
-     
-     PENTING:
-     
-     Logout hanya menghapus ACTIVE SESSION.
-     
-     childProfile tetap ada.
-     parentProfile tetap ada.
-     stars tetap ada.
-     progress tetap ada.
   ======================================================== */
 
   const logout = () => {
@@ -415,9 +419,6 @@ export default function App() {
 
     setParentUnlocked(false);
 
-    /*
-      Hapus hanya active profile.
-    */
     writeStorage(
       STORAGE_KEYS.profile,
       null
@@ -451,9 +452,13 @@ export default function App() {
         stars,
         progress,
 
-        /* SOUND */
+        /* VOICE / AI SOUND */
         muted,
         setMuted,
+
+        /* BACKGROUND MUSIC */
+        backgroundMusicMuted,
+        setBackgroundMusicMuted,
 
         /* PROGRESS */
         completeModule,
@@ -762,10 +767,6 @@ function AppLayout({
   profile: Profile | null;
   logout: () => void;
 }) {
-  /*
-    Header tidak ditampilkan
-    ketika belum login.
-  */
   if (!profile) {
     return null;
   }
@@ -787,10 +788,6 @@ function ProtectedParent() {
     parentUnlocked,
   } = useApp();
 
-  /*
-    Jika Parent Gate belum berhasil,
-    jangan izinkan masuk.
-  */
   if (!parentUnlocked) {
     return (
       <Navigate
@@ -800,10 +797,5 @@ function ProtectedParent() {
     );
   }
 
-  /*
-    Parent Gate berhasil.
-    Izinkan masuk ke halaman Orang Tua
-    walaupun profile aktif masih Anak.
-  */
   return <ParentSettings />;
 }

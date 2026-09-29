@@ -1,3 +1,4 @@
+
 import { createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
@@ -77,9 +78,7 @@ export interface ProgressState {
 ========================================================= */
 
 export interface AppContextValue {
-  /* =======================================================
-     ACTIVE SESSION
-  ======================================================= */
+  /* ACTIVE SESSION */
 
   profile: Profile | null;
 
@@ -87,9 +86,7 @@ export interface AppContextValue {
     profile: Profile
   ) => void;
 
-  /* =======================================================
-     CHILD PROFILE
-  ======================================================= */
+  /* CHILD PROFILE */
 
   childProfile: ChildProfile | null;
 
@@ -97,9 +94,7 @@ export interface AppContextValue {
     profile: ChildProfile
   ) => void;
 
-  /* =======================================================
-     PARENT PROFILE
-  ======================================================= */
+  /* PARENT PROFILE */
 
   parentProfile: ParentProfile | null;
 
@@ -107,23 +102,15 @@ export interface AppContextValue {
     profile: ParentProfile
   ) => void;
 
-  /* =======================================================
-     STARS
-  ======================================================= */
+  /* STARS */
 
   stars: number;
 
-  /* =======================================================
-     PROGRESS
-  ======================================================= */
+  /* PROGRESS */
 
   progress: ProgressState;
 
-  /* =======================================================
-     VOICE / AI SOUND
-
-     muted digunakan untuk suara AI / TTS.
-  ======================================================= */
+  /* VOICE / AI SOUND */
 
   muted: boolean;
 
@@ -131,11 +118,7 @@ export interface AppContextValue {
     muted: boolean
   ) => void;
 
-  /* =======================================================
-     BACKGROUND MUSIC
-
-     backgroundMusicMuted khusus untuk backsound.
-  ======================================================= */
+  /* BACKGROUND MUSIC */
 
   backgroundMusicMuted: boolean;
 
@@ -143,9 +126,7 @@ export interface AppContextValue {
     muted: boolean
   ) => void;
 
-  /* =======================================================
-     LEARNING
-  ======================================================= */
+  /* LEARNING */
 
   completeModule: (
     module: ModuleKey,
@@ -154,9 +135,7 @@ export interface AppContextValue {
 
   resetProgress: () => void;
 
-  /* =======================================================
-     PARENT ACCESS
-  ======================================================= */
+  /* PARENT ACCESS */
 
   parentUnlocked: boolean;
 
