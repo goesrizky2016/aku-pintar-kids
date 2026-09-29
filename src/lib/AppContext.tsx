@@ -121,8 +121,8 @@ export interface AppContextValue {
 
   /* =======================================================
      VOICE / AI SOUND
-     
-     muted tetap digunakan untuk suara AI/TTS.
+
+     muted digunakan untuk suara AI / TTS.
   ======================================================= */
 
   muted: boolean;
@@ -133,10 +133,8 @@ export interface AppContextValue {
 
   /* =======================================================
      BACKGROUND MUSIC
-     
-     backgroundMusicMuted KHUSUS untuk backsound.
-     
-     Jangan gunakan muted untuk backsound.
+
+     backgroundMusicMuted khusus untuk backsound.
   ======================================================= */
 
   backgroundMusicMuted: boolean;
@@ -190,9 +188,7 @@ export const defaultProgress: ProgressState = {
 ========================================================= */
 
 export const AppContext =
-  createContext<AppContextValue | null>(
-    null
-  );
+  createContext<AppContextValue | null>(null);
 
 /* =========================================================
    PROVIDER
