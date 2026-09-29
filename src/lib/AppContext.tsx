@@ -77,41 +77,78 @@ export interface ProgressState {
 ========================================================= */
 
 export interface AppContextValue {
-  /* Active session */
+  /* =======================================================
+     ACTIVE SESSION
+  ======================================================= */
+
   profile: Profile | null;
 
   setProfile: (
     profile: Profile
   ) => void;
 
-  /* Child profile */
+  /* =======================================================
+     CHILD PROFILE
+  ======================================================= */
+
   childProfile: ChildProfile | null;
 
   setChildProfile: (
     profile: ChildProfile
   ) => void;
 
-  /* Parent profile */
+  /* =======================================================
+     PARENT PROFILE
+  ======================================================= */
+
   parentProfile: ParentProfile | null;
 
   setParentProfile: (
     profile: ParentProfile
   ) => void;
 
-  /* Stars */
+  /* =======================================================
+     STARS
+  ======================================================= */
+
   stars: number;
 
-  /* Progress */
+  /* =======================================================
+     PROGRESS
+  ======================================================= */
+
   progress: ProgressState;
 
-  /* Sound */
+  /* =======================================================
+     VOICE / AI SOUND
+     
+     muted tetap digunakan untuk suara AI/TTS.
+  ======================================================= */
+
   muted: boolean;
 
   setMuted: (
     muted: boolean
   ) => void;
 
-  /* Learning */
+  /* =======================================================
+     BACKGROUND MUSIC
+     
+     backgroundMusicMuted KHUSUS untuk backsound.
+     
+     Jangan gunakan muted untuk backsound.
+  ======================================================= */
+
+  backgroundMusicMuted: boolean;
+
+  setBackgroundMusicMuted: (
+    muted: boolean
+  ) => void;
+
+  /* =======================================================
+     LEARNING
+  ======================================================= */
+
   completeModule: (
     module: ModuleKey,
     amount?: number
@@ -119,7 +156,10 @@ export interface AppContextValue {
 
   resetProgress: () => void;
 
-  /* Parent access */
+  /* =======================================================
+     PARENT ACCESS
+  ======================================================= */
+
   parentUnlocked: boolean;
 
   unlockParent: () => void;
